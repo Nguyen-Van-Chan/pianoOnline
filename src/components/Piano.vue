@@ -199,9 +199,9 @@
 
       .wkey.auto-key-active {
         box-shadow: 0 2px 2px rgba(0, 0, 0, 0.4);
-        top: 0%;
-        height: 100%;
-        background: @c-yellow !important;
+        top: -1%;
+        height: 99%;
+        background: #efefef;
 
         &:before {
           content: "";
@@ -209,8 +209,8 @@
           border-style: solid;
           border-color: transparent transparent transparent rgba(0, 0, 0, 0.1);
           position: absolute;
-          top: 0;
           left: 0;
+          bottom: 0;
         }
 
         &:after {
@@ -220,7 +220,7 @@
           border-color: transparent rgba(0, 0, 0, 0.1) transparent transparent;
           position: absolute;
           right: 0;
-          left: 0;
+          bottom: 0;
         }
       }
 
@@ -228,7 +228,6 @@
         height: 101%;
         border-bottom-width: 2px;
         box-shadow: inset 0px -1px 1px rgba(255, 255, 255, 0.4), 0 1px 0px rgba(0, 0, 0, 0.8), 0 2px 2px rgba(0, 0, 0, 0.4), 0 -1px 0px #000;
-        background: @c-yellow !important;
       }
 
       .bkey:nth-child(1) {
@@ -562,15 +561,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['$currentNote']),
+        ...mapGetters(['$currentNote']),
     activeNoteClass() {
       return this.$currentNote ? 'auto-key-active' : ''
     }
+
   },
   watch: {
     $currentNote(newNote) {
       if (newNote) {
-        const note = this.getNoteByName(newNote)
+        // Chỉ phát âm thanh, không thêm class highlight
+                const note = this.getNoteByName(newNote)
         if (note) {
           const keyType = note.type
           const keyElement = $(`[data-keyCode=${note.keyCode}]`)
@@ -582,6 +583,8 @@ export default {
       } else {
         // Xóa highlight khi không có nốt nào đang chơi
         $('.piano-key').removeClass('auto-key-active')
+
+    //    this.playNote(newNote)
       }
     }
   },
